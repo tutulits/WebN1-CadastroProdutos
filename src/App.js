@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';                                                                             
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import AdicionarProduto from './AdicionarProduto';
+import AdicionarProduto from './AdicionarProduto.js';
 import { Container } from 'react-bootstrap';
 
 function App() {

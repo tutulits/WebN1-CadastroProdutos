@@ -11,11 +11,11 @@ function AdicionarProduto() {
     const [preco, setPreco] = useState('');
     const [quantidade_estoque, setQuantidade] = useState('');
     const [fornecedor, setFornecedor] = useState('');
-    const [data_cadastro, setData] = useState('');
+    const [dataCadastro, setData] = useState('');
 
     const handleSubmit = (evento) => {
         evento.preventDefault();
-        const novoProduto = { nome_produto, descricao, categoria, preco, quantidade_estoque, fornecedor, data_cadastro};
+        const novoProduto = { nome_produto, descricao, categoria, preco, quantidade_estoque, fornecedor, data_cadastro: dataCadastro};
 
         axios.post('http://localhost:3001/adicionar', novoProduto)
             .then(() => {
@@ -60,14 +60,14 @@ function AdicionarProduto() {
 
                                     <label style={{ flex: 1 }}>
                                         <div style={{ color: 'black' }}>Preço:</div>
-                                        <input type="text" value={preco} onChange={(e) => setPreco(e.target.value)} style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }} required />
+                                        <input type="number" value={preco} onChange={(e) => setPreco(e.target.value)} style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }} required />
                                     </label>
                                 </div>
 
                                 <div style={{ display: 'flex', gap: '20px' }}>
                                     <label style={{ flex: 1 }}>
-                                        <div style={{ color: 'black' }}>CEP:</div>
-                                        <input type="text" value={quantidade_estoque} onChange={(e) => setQuantidade(e.target.value)} placeholder='Insira a quantidade!' style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }} required />
+                                        <div style={{ color: 'black' }}>Quantidade:</div>
+                                        <input type="number" value={quantidade_estoque} onChange={(e) => setQuantidade(e.target.value)} placeholder='Insira a quantidade!' style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }} required />
                                     </label>
 
                                     <label style={{ flex: 1 }}>
@@ -78,8 +78,8 @@ function AdicionarProduto() {
 
                                 <div style={{ display: 'flex', gap: '20px' }}>
                                     <label style={{ flex: 1 }}>
-                                        <div style={{ color: 'black' }}>Data:</div>
-                                        <select value={data_cadastro} onChange={(e) => setData(e.target.value)} style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }} required></select>
+                                        <div style={{ color: 'black' }}>Data Compra:</div>
+                                        <input type='date' value={dataCadastro} onChange={(e) => setData(e.target.value)} style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }} required></input>
                                     </label>
                                 </div>
 
