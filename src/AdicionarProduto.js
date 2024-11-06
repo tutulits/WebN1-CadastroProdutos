@@ -23,6 +23,7 @@ function AdicionarProduto() {
 
             })
             .catch((erro) => {
+                console.error('Erro de rede:', erro);  // Debug
                 alert('Erro ao adicionar Produto: ' + erro.message);
             });
     };

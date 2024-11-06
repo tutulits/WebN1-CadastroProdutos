@@ -20,7 +20,18 @@ conexao.connect((erro) => {
     } else {
         console.log('Conectado ao banco de dados MySql.');
     }
+
+    const PORT = 3001;
+    app.listen(PORT, () => {
+    console.log(`Servidor rodando na porta ${PORT}`);
 });
+
+
+
+});
+
+
+
 
 // Inserindo um novo produto
 app.post('/adicionar', (req, res) => {
@@ -35,3 +46,20 @@ app.post('/adicionar', (req, res) => {
         }
     });
 });
+
+
+// Inserindo uma nova categoria
+app.post('/categoria', (req, res) => {
+    const { nome, descricao} = req.body;
+    const query = 'INSERT INTO categorias (nome, descricao) VALUES (?,?)';
+    conexao.query(query, [nome, descricao], (erro, resultado) => {
+        if (erro) {
+            console.error('Erro ao adicionar categoria:', erro);
+            res.status(500).send('Erro ao adicionar categoria: ' + erro.sqlMessage); // Detalhes do erro do MySQL
+        } else {
+            res.send('Categoria adicionado com sucesso!');
+        }
+    });
+});
+
+
