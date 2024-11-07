@@ -35,9 +35,9 @@ conexao.connect((erro) => {
 
 // Inserindo um novo produto
 app.post('/adicionar', (req, res) => {
-    const { nome_produto, descricao, categoria, preco, quantidade_estoque, fornecedor, data_cadastro } = req.body;
-    const query = 'INSERT INTO produto (nome_produto, descricao, categoria, preco, quantidade_estoque, fornecedor, data_cadastro) VALUES (?, ?, ?, ?, ?, ?, ?)';
-    conexao.query(query, [nome_produto, descricao, categoria, preco, quantidade_estoque, fornecedor, data_cadastro], (erro, resultado) => {
+    const { nome_produto, descricao, categoria, preco, quantidade_estoque, fornecedor, data_cadastro, validade, quantidade } = req.body;
+    const query = 'INSERT INTO produto (nome_produto, descricao, categoria, preco, quantidade_estoque, fornecedor, data_cadastro, validade, quantidade ) VALUES (?, ?, ?, ?, ?, ?, ?,?,?)';
+    conexao.query(query, [nome_produto, descricao, categoria, preco, quantidade_estoque, fornecedor, data_cadastro, validade, quantidade ], (erro, resultado) => {
         if (erro) {
             console.error('Erro ao adicionar produto:', erro);
             res.status(500).send('Erro ao adicionar produto: ' + erro.sqlMessage); // Detalhes do erro do MySQL

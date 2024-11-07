@@ -12,10 +12,13 @@ function AdicionarProduto() {
     const [quantidade_estoque, setQuantidade] = useState('');
     const [fornecedor, setFornecedor] = useState('');
     const [dataCadastro, setData] = useState('');
+    const[validade, setValidade] = useState('');
+    const [quantidade, setQuantia] = useState('');
+    const [multiplicacao, setMultiplicacao] = useState('');
 
     const handleSubmit = (evento) => {
         evento.preventDefault();
-        const novoProduto = { nome_produto, descricao, categoria, preco, quantidade_estoque, fornecedor, data_cadastro: dataCadastro};
+        const novoProduto = { nome_produto, descricao, categoria, preco, quantidade_estoque, fornecedor, data_cadastro: dataCadastro, validade: validade, quantidade, multiplicacao};
 
         axios.post('http://localhost:3001/adicionar', novoProduto)
             .then(() => {
@@ -27,6 +30,17 @@ function AdicionarProduto() {
                 alert('Erro ao adicionar Produto: ' + erro.message);
             });
     };
+
+    const multiplicar = () => {
+        const N1 = parseInt(quantidade);
+        const N2 = parseFloat(preco);
+        if (!isNaN(N1) && !isNaN(N2)) {
+            setMultiplicacao(N1 * N2);
+        } else {
+            setMultiplicacao(0);
+        }
+    }
+
 
 
     return (
@@ -61,13 +75,13 @@ function AdicionarProduto() {
 
                                     <label style={{ flex: 1 }}>
                                         <div style={{ color: 'black' }}>Preço:</div>
-                                        <input type="number" value={preco} onChange={(e) => setPreco(e.target.value)} style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }} required />
+                                        <input type="number" value={preco} onChange={(e) => {setPreco(e.target.value); multiplicar();}} style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }} required />
                                     </label>
                                 </div>
 
                                 <div style={{ display: 'flex', gap: '20px' }}>
                                     <label style={{ flex: 1 }}>
-                                        <div style={{ color: 'black' }}>Quantidade:</div>
+                                        <div style={{ color: 'black' }}>Estoque:</div>
                                         <input type="number" value={quantidade_estoque} onChange={(e) => setQuantidade(e.target.value)} placeholder='Insira a quantidade!' style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }} required />
                                     </label>
 
@@ -82,10 +96,26 @@ function AdicionarProduto() {
                                         <div style={{ color: 'black' }}>Data Compra:</div>
                                         <input type='date' value={dataCadastro} onChange={(e) => setData(e.target.value)} style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }} required></input>
                                     </label>
+                                    <label style={{ flex: 1 }}>
+                                        <div style={{ color: 'black' }}>Validade:</div>
+                                        <input type='date' value={validade} onChange={(e) => setValidade(e.target.value)} style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }} required></input>
+                                    </label>
                                 </div>
+
+                                <div style={{ display: 'flex', gap: '20px' }}>
+                                    <label style={{ flex: 1 }}>
+                                        <div style={{ color: 'black' }}>Quantidade:</div>
+                                        <input type='number' value={quantidade} onChange={(e) => {setQuantia(e.target.value); multiplicar()}} style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }} required></input>
+                                    </label>
+                                </div>
+                                
 
                                 <Button type="submit" variant="secondary" style={{ flex: 1 }}>Adicionar Produto</Button>
                                 <Link to="/adicionar" style={{ flex: 1 }}></Link>
+
+                                <div>
+                                    <b>Multiplicação Produto:{multiplicacao}</b>
+                                </div>
 
                             </div>
                         </form>

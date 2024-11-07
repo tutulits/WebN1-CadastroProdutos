@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';                                                        
+import './App.css';                                               
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import AdicionarProduto from './AdicionarProduto.js';
 import AdicionarCategoria from './AdicionarCategoria.js';
