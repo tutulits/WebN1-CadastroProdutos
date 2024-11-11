@@ -1,0 +1,15 @@
+/* Mantém a estrutura básica e remove os estilos extras */
+.produto-container {
+  background-color: white;
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  .form-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }

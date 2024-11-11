@@ -1,0 +1,28 @@
+body{
+    background-color:#537584 ;
+  }
+  .centro {
+    text-align: center;
+    color: white;
+  }
+  .centralizar{
+    display: flex;          
+    align-items: center;    
+    color: white;
+  }
+  .tipo{
+    color: black;
+    height: 35px;
+    width: 50px;
+    background-color: white;
+  }
+  .branco{
+    background-color: white;
+  }
+  div {
+    margin-bottom: 10px;
+  }
+  input::placeholder {
+    color: slategrey;
+  }
+  
