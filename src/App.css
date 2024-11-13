@@ -2,6 +2,7 @@
 body, .app-container {
   background-color: #537584 !important;
   height: 100%; /* Garante que a altura da página seja preenchida */
+  padding-bottom: 50px;
 }
 
 /* Define que a altura do conteúdo também ocupe toda a área visível */
@@ -9,4 +10,8 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
+}
+
+.centro{
+  text-align: center;
 }

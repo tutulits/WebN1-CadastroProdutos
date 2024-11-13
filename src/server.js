@@ -51,6 +51,20 @@ app.post('/adicionar', (req, res) => {
     });
 });
 
+app.post('/fornecedor', (req, res) => {
+    const { nome, endereco, telefone, email } = req.body;
+
+    const query = `INSERT INTO fornecedor (nome, endereco, telefone, email) VALUES (?, ?, ?, ?)`;
+    conexao.query(query, [nome, endereco, telefone, email], (erro, resultado) => {
+        if (erro) {
+            console.error('Erro ao adicionar Fornecedor:', erro);
+            return res.status(500).send('Erro ao adicionar fornecedor:' + erro.sqlMessage);
+        }
+        res.send('Fornecedor adicionado com sucesso');
+    });
+});
+
+
 // Inserindo uma nova categoria
 app.post('/categoria', (req, res) => {
     const { nome, descricao } = req.body;
@@ -72,7 +86,7 @@ app.post('/categoria', (req, res) => {
 // Rota para buscar todas as categorias
 app.get('/categorias', (req, res) => {
     const query = 'SELECT id_categoria, nome FROM categorias';
-    
+
     conexao.query(query, (erro, resultados) => {
         if (erro) {
             console.error('Erro ao buscar categorias:', erro);

@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import AdicionarProduto from './AdicionarProduto';
 import AdicionarCategoria from './AdicionarCategoria';
+import AdicionarFornecedor from './AdicionarFornecedor';
 import { Container, Navbar, Nav, Button, Row, Col, Card } from 'react-bootstrap';
 import { FaPlus, FaClipboardList } from 'react-icons/fa';  // Importando ícones para botões
 import './App.css';  // Importando o CSS com a cor de fundo
@@ -48,7 +49,7 @@ function App() {
                   <Card.Text>
                     Cadastre seus parceiros comerciais no Tutulits Market!
                   </Card.Text>
-                  <Link to="">
+                  <Link to="/fornecedor">
                     <Button variant="danger">
                       <FaClipboardList /> Adicionar Fornecedores
                     </Button>
@@ -79,6 +80,7 @@ function App() {
             <Route path="/" />
             <Route path="/adicionar" element={<AdicionarProduto />} />
             <Route path="/categoria" element={<AdicionarCategoria />} />
+            <Route path='/fornecedor' element={<AdicionarFornecedor/>} />
           </Routes>
         </Container>
       </div>
