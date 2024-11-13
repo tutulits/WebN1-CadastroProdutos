@@ -4,6 +4,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
 
+
 function AdicionarCategoria() {
   const [nome, setNome] = useState("");
   const [descricao, setDescricao] = useState('');

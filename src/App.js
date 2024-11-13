@@ -4,15 +4,16 @@ import AdicionarProduto from './AdicionarProduto';
 import AdicionarCategoria from './AdicionarCategoria';
 import { Container, Navbar, Nav, Button, Row, Col, Card } from 'react-bootstrap';
 import { FaPlus, FaClipboardList } from 'react-icons/fa';  // Importando ícones para botões
-import './App.css'; 
+import './App.css';  // Importando o CSS com a cor de fundo
 
 function App() {
   return (
+    <body>
     <Router>
-      <Container fluid style={{ backgroundColor: '#537584' }}>
-        {/* Navbar para navegação */}
+      {/* Aplique a classe app-container aqui para garantir que o fundo se estenda */}
+      <div className="app-container">
         <Navbar bg="dark" variant="dark" expand="lg" className="mb-4">
-          <Navbar.Brand href="/"> 🛒 Sistema V1.0 </Navbar.Brand>
+          <Navbar.Brand href="/"> 🛒 Tutulits Market</Navbar.Brand>
           <Nav className="ml-auto">
             <Link to="/adicionar" className="nav-link">Adicionar Produto 🏷️</Link>
             <Link to="" className="nav-link">Adicionar Fornecedores 📂</Link>
@@ -29,7 +30,7 @@ function App() {
                 <Card.Body>
                   <Card.Title>Adicionar Produto 🏷️</Card.Title>
                   <Card.Text>
-                    Cadastre novos produtos de forma rápida e eficiente!
+                    Cadastre novos produtos de forma rápida e eficiente no Tutulits Market!
                   </Card.Text>
                   <Link to="/adicionar">
                     <Button variant="primary">
@@ -45,7 +46,7 @@ function App() {
                 <Card.Body>
                   <Card.Title>Adicionar Fornecedores 📂</Card.Title>
                   <Card.Text>
-                    Cadastre seus parceiros comerciais!
+                    Cadastre seus parceiros comerciais no Tutulits Market!
                   </Card.Text>
                   <Link to="">
                     <Button variant="danger">
@@ -61,7 +62,7 @@ function App() {
                 <Card.Body>
                   <Card.Title>Adicionar Categoria 📂</Card.Title>
                   <Card.Text>
-                    Organize seus produtos criando categorias!
+                    Organize seus produtos criando categorias no Tutulits Market!
                   </Card.Text>
                   <Link to="/categoria">
                     <Button variant="success">
@@ -72,7 +73,6 @@ function App() {
               </Card>
             </Col>
 
-
           </Row>
 
           <Routes>
@@ -81,8 +81,11 @@ function App() {
             <Route path="/categoria" element={<AdicionarCategoria />} />
           </Routes>
         </Container>
-      </Container>
+      </div>
     </Router>
+    
+</body>    
+
   );
 }
 

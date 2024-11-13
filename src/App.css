@@ -1,12 +1,12 @@
-body {
-  background-color: #537584; 
-  margin: 0;
-  padding: 0;
-  font-family: 'Arial', sans-serif;
-  min-height: 100vh;
-  color: white;
-}
-.centro{
-  text-align: center;
+/* Adiciona cor de fundo à página inteira */
+body, .app-container {
+  background-color: #537584 !important;
+  height: 100%; /* Garante que a altura da página seja preenchida */
 }
 
+/* Define que a altura do conteúdo também ocupe toda a área visível */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
