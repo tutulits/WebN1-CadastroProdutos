@@ -12,13 +12,15 @@ function AdicionarProduto() {
   const [categoria, setCategoria] = useState('');
   const [categorias, setCategorias] = useState([]);
   const [preco, setPreco] = useState('');
-  const [quantidade_estoque, setQuantidade] = useState('');
-  const [fornecedor, setFornecedor] = useState('');
+  const [quantidade_estoque, setQuantidadeEstoque] = useState('');
+  const [fornecedor, setFornecedor] = useState(''); // Fornecedor selecionado
+  const [fornecedores, setFornecedores] = useState([]); // Lista de fornecedores
   const [dataCadastro, setData] = useState('');
   const [validade, setValidade] = useState('');
   const [quantidade, setQuantia] = useState('');
   const [multiplicacao, setMultiplicacao] = useState(0);
 
+  // Buscar as categorias e fornecedores da API
   useEffect(() => {
     axios.get('http://localhost:3001/categorias')
       .then(response => {
@@ -26,6 +28,14 @@ function AdicionarProduto() {
       })
       .catch(error => {
         console.error("Erro ao buscar categorias:", error);
+      });
+
+    axios.get('http://localhost:3001/fornecedores') // Nova chamada para obter fornecedores
+      .then(response => {
+        setFornecedores(response.data);
+      })
+      .catch(error => {
+        console.error("Erro ao buscar fornecedores:", error);
       });
   }, []);
 
@@ -37,7 +47,7 @@ function AdicionarProduto() {
       categoria,
       preco,
       quantidade_estoque,
-      fornecedor,
+      fornecedor, // Incluir fornecedor selecionado no objeto
       data_cadastro: dataCadastro,
       validade,
       quantidade,
@@ -54,7 +64,6 @@ function AdicionarProduto() {
       });
   };
 
-  
   const calcularMultiplicacao = () => {
     const N1 = parseFloat(quantidade);
     const N2 = parseFloat(preco); 
@@ -67,14 +76,14 @@ function AdicionarProduto() {
 
   const handleQuantidadeChange = (e) => {
     const novoQuantidade = e.target.value;
-    setQuantia(novoQuantidade); // Atualiza o estado de quantidade
-    setMultiplicacao(calcularMultiplicacao(novoQuantidade, preco)); // Recalcula a multiplicação
+    setQuantia(novoQuantidade); 
+    setMultiplicacao(calcularMultiplicacao(novoQuantidade, preco)); 
   };
 
   const handlePrecoChange = (e) => {
     const novoPreco = e.target.value;
-    setPreco(novoPreco); // Atualiza o estado de preço
-    setMultiplicacao(calcularMultiplicacao(quantidade, novoPreco)); // Recalcula a multiplicação
+    setPreco(novoPreco); 
+    setMultiplicacao(calcularMultiplicacao(quantidade, novoPreco)); 
   };
 
   return (
@@ -120,12 +129,19 @@ function AdicionarProduto() {
                 <div style={{ display: 'flex', gap: '20px' }}>
                   <label style={{ flex: 1 }}>
                     <div style={{ color: 'black' }}>Estoque:</div>
-                    <input type="number" value={quantidade_estoque} onChange={(e) => setQuantidade(e.target.value)} placeholder='Insira a quantidade!' className="form-input" required />
+                    <input type="number" value={quantidade_estoque} onChange={(e) => setQuantidadeEstoque(e.target.value)} placeholder='Insira a quantidade!' className="form-input" required />
                   </label>
 
                   <label style={{ flex: 1 }}>
                     <div style={{ color: 'black' }}>Fornecedor:</div>
-                    <input type="text" value={fornecedor} onChange={(e) => setFornecedor(e.target.value)} className="form-input" required />
+                    <select value={fornecedor} onChange={(e) => setFornecedor(e.target.value)} className="form-input" required>
+                      <option value="" disabled>Selecione um fornecedor</option>
+                      {fornecedores.map((f) => (
+                        <option key={f.id} value={f.id}>
+                          {f.nome}
+                        </option>
+                      ))}
+                    </select>
                   </label>
                 </div>
 

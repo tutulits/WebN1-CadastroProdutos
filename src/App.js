@@ -17,7 +17,7 @@ function App() {
           <Navbar.Brand href="/"> 🛒 Tutulits Market</Navbar.Brand>
           <Nav className="ml-auto">
             <Link to="/adicionar" className="nav-link">Adicionar Produto 🏷️</Link>
-            <Link to="" className="nav-link">Adicionar Fornecedores 📂</Link>
+            <Link to="/fornecedor" className="nav-link">Adicionar Fornecedores 📂</Link>
             <Link to="/categoria" className="nav-link">Adicionar Categoria 📂</Link>
             <Link to="/" className="nav-link">Voltar ⬅️</Link>
           </Nav>
@@ -80,7 +80,7 @@ function App() {
             <Route path="/" />
             <Route path="/adicionar" element={<AdicionarProduto />} />
             <Route path="/categoria" element={<AdicionarCategoria />} />
-            <Route path='/fornecedor' element={<AdicionarFornecedor/>} />
+            <Route path="/fornecedor" element={<AdicionarFornecedor/>} />
           </Routes>
         </Container>
       </div>

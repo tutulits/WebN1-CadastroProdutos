@@ -1,7 +1,7 @@
 /* Adiciona cor de fundo à página inteira */
 body, .app-container {
   background-color: #537584 !important;
-  height: 100%; /* Garante que a altura da página seja preenchida */
+  height: 100%; 
   padding-bottom: 50px;
 }
 

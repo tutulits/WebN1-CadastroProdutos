@@ -2,6 +2,7 @@ const express = require('express');
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const util = require('util');
 
 const app = express();
 app.use(cors());
@@ -15,89 +16,94 @@ const conexao = mysql.createConnection({
     database: 'cadastro'
 });
 
+// Utilizando promisify para transformar a conexão em Promises e usar async/await
+const query = util.promisify(conexao.query).bind(conexao);
+
 // Conectar ao banco de dados
 conexao.connect((erro) => {
     if (erro) {
         console.error('Erro ao conectar ao banco de dados:', erro);
     } else {
         console.log('Conectado ao banco de dados MySQL.');
+        const PORT = 3001;
+        app.listen(PORT, () => {
+            console.log(`Servidor rodando na porta ${PORT}`);
+        });
     }
-
-    const PORT = 3001;
-    app.listen(PORT, () => {
-        console.log(`Servidor rodando na porta ${PORT}`);
-    });
 });
 
 // Inserindo um novo produto
-app.post('/adicionar', (req, res) => {
-    const { nome_produto, descricao, categoria, preco, quantidade_estoque, fornecedor, data_cadastro, validade, quantidade } = req.body;
+app.post('/adicionar', async (req, res) => {
+    try {
+        const { nome_produto, descricao, categoria, preco, quantidade_estoque, fornecedor, data_cadastro, validade, quantidade } = req.body;
 
-    // Validação simples para garantir que todos os campos obrigatórios foram enviados
-    if (!nome_produto || !descricao || !categoria || !preco || !quantidade_estoque || !fornecedor || !data_cadastro || !validade || !quantidade) {
-        return res.status(400).send('Todos os campos são obrigatórios.');
-    }
-
-    const query = `INSERT INTO produto 
-                   (nome_produto, descricao, categoria, preco, quantidade_estoque, fornecedor, data_cadastro, validade, quantidade) 
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-
-    conexao.query(query, [nome_produto, descricao, categoria, preco, quantidade_estoque, fornecedor, data_cadastro, validade, quantidade], (erro, resultado) => {
-        if (erro) {
-            console.error('Erro ao adicionar produto:', erro);
-            return res.status(500).send('Erro ao adicionar produto: ' + erro.sqlMessage);
+        // Validação simples para garantir que todos os campos obrigatórios foram enviados
+        if (!nome_produto || !descricao || !categoria || !preco || !quantidade_estoque || !fornecedor || !data_cadastro || !validade || !quantidade) {
+            return res.status(400).send('Todos os campos são obrigatórios.');
         }
+
+        const queryStr = `INSERT INTO produto 
+                          (nome_produto, descricao, categoria, preco, quantidade_estoque, fornecedor, data_cadastro, validade, quantidade) 
+                          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+
+        await query(queryStr, [nome_produto, descricao, categoria, preco, quantidade_estoque, fornecedor, data_cadastro, validade, quantidade]);
         res.send('Produto adicionado com sucesso!');
-    });
+    } catch (erro) {
+        console.error('Erro ao adicionar produto:', erro);
+        res.status(500).send('Erro ao adicionar produto: ' + erro.sqlMessage);
+    }
 });
-
-app.post('/fornecedor', (req, res) => {
-    const { nome, endereco, telefone, email } = req.body;
-
-    const query = `INSERT INTO fornecedor (nome, endereco, telefone, email) VALUES (?, ?, ?, ?)`;
-    conexao.query(query, [nome, endereco, telefone, email], (erro, resultado) => {
-        if (erro) {
-            console.error('Erro ao adicionar Fornecedor:', erro);
-            return res.status(500).send('Erro ao adicionar fornecedor:' + erro.sqlMessage);
-        }
-        res.send('Fornecedor adicionado com sucesso');
-    });
-});
-
 
 // Inserindo uma nova categoria
-app.post('/categoria', (req, res) => {
-    const { nome, descricao } = req.body;
+app.post('/categoria', async (req, res) => {
+    try {
+        const { nome, descricao } = req.body;
 
-    if (!nome || !descricao) {
-        return res.status(400).send('Nome e descrição da categoria são obrigatórios.');
-    }
-
-    const query = 'INSERT INTO categorias (nome, descricao) VALUES (?, ?)';
-    conexao.query(query, [nome, descricao], (erro, resultado) => {
-        if (erro) {
-            console.error('Erro ao adicionar categoria:', erro);
-            return res.status(500).send('Erro ao adicionar categoria: ' + erro.sqlMessage);
+        if (!nome || !descricao) {
+            return res.status(400).send('Nome e descrição da categoria são obrigatórios.');
         }
+
+        const queryStr = 'INSERT INTO categorias (nome, descricao) VALUES (?, ?)';
+        await query(queryStr, [nome, descricao]);
+
         res.send('Categoria adicionada com sucesso!');
-    });
+    } catch (erro) {
+        console.error('Erro ao adicionar categoria:', erro);
+        res.status(500).send('Erro ao adicionar categoria: ' + erro.sqlMessage);
+    }
 });
 
 // Rota para buscar todas as categorias
-app.get('/categorias', (req, res) => {
-    const query = 'SELECT id_categoria, nome FROM categorias';
+app.get('/categorias', async (req, res) => {
+    try {
+        const resultados = await query('SELECT id_categoria, nome FROM categorias');
+        res.json(resultados); // Retorna as categorias em formato JSON
+    } catch (erro) {
+        console.error('Erro ao buscar categorias:', erro);
+        res.status(500).send('Erro ao buscar categorias: ' + erro.sqlMessage);
+    }
+});
 
-    conexao.query(query, (erro, resultados) => {
-        if (erro) {
-            console.error('Erro ao buscar categorias:', erro);
-            return res.status(500).send('Erro ao buscar categorias: ' + erro.sqlMessage);
+// Inserindo um novo fornecedor
+app.post('/fornecedor', async (req, res) => {
+    try {
+        const { nome, endereco, telefone, email } = req.body;
+
+        if (!nome || !endereco || !telefone || !email) {
+            return res.status(400).send('Todos os campos de fornecedor são obrigatórios.');
         }
-        res.json(resultados);  // Retorna as categorias em formato JSON
-    });
+
+        const queryStr = `INSERT INTO fornecedor (nome, endereco, telefone, email) VALUES (?, ?, ?, ?)`;
+        await query(queryStr, [nome, endereco, telefone, email]);
+
+        res.send('Fornecedor adicionado com sucesso!');
+    } catch (erro) {
+        console.error('Erro ao adicionar Fornecedor:', erro);
+        res.status(500).send('Erro ao adicionar fornecedor: ' + erro.sqlMessage);
+    }
 });
 
 // Tratamento para rotas não existentes
 app.use((req, res) => {
     res.status(404).send('Rota não encontrada.');
 });
-
