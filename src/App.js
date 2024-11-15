@@ -16,10 +16,10 @@ function App() {
         <Navbar bg="dark" variant="dark" expand="lg" className="mb-4">
           <Navbar.Brand href="/"> 🛒 Tutulits Market</Navbar.Brand>
           <Nav className="ml-auto">
-            <Link to="/adicionar" className="nav-link">Adicionar Produto 🏷️</Link>
-            <Link to="/fornecedor" className="nav-link">Adicionar Fornecedores 📂</Link>
-            <Link to="/categoria" className="nav-link">Adicionar Categoria 📂</Link>
-            <Link to="/" className="nav-link">Voltar ⬅️</Link>
+            <Link to="/adicionar" className="corzinha">Adicionar Produto 🏷️</Link>
+            <Link to="/fornecedor" className="corzinha">Adicionar Fornecedores 📂</Link>
+            <Link to="/categoria" className="corzinha">Adicionar Categoria 📂</Link>
+            <Link to="/" className="corzinha">Voltar ⬅️</Link>
           </Nav>
         </Navbar>
 
