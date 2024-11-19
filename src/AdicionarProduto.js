@@ -21,7 +21,6 @@ function AdicionarProduto() {
   const [validade, setValidade] = useState('');
   const [quantidade, setQuantia] = useState('');
   const [multiplicacao, setMultiplicacao] = useState(0);
-  const [productName, setProductName] = useState('');
   const [barcode, setBarcode] = useState('');
   const [barcodeGenerated, setBarcodeGenerated] = useState('');
 
@@ -50,7 +49,7 @@ function AdicionarProduto() {
         console.error("Erro ao buscar categorias:", error);
       });
 
-    axios.get('http://localhost:3001/fornecedores') 
+    axios.get('http://localhost:3001/fornecedores')
       .then(response => {
         setFornecedores(response.data);
       })
@@ -86,24 +85,24 @@ function AdicionarProduto() {
 
   const calcularMultiplicacao = () => {
     const N1 = parseFloat(quantidade);
-    const N2 = parseFloat(preco); 
+    const N2 = parseFloat(preco);
     if (!isNaN(N1) && !isNaN(N2)) {
       return (N1 * N2).toFixed(2);
     } else {
-      return 0; 
+      return 0;
     }
   };
 
   const handleQuantidadeChange = (e) => {
     const novoQuantidade = e.target.value;
-    setQuantia(novoQuantidade); 
-    setMultiplicacao(calcularMultiplicacao(novoQuantidade, preco)); 
+    setQuantia(novoQuantidade);
+    setMultiplicacao(calcularMultiplicacao(novoQuantidade, preco));
   };
 
   const handlePrecoChange = (e) => {
     const novoPreco = e.target.value;
-    setPreco(novoPreco); 
-    setMultiplicacao(calcularMultiplicacao(quantidade, novoPreco)); 
+    setPreco(novoPreco);
+    setMultiplicacao(calcularMultiplicacao(quantidade, novoPreco));
   };
 
   return (
@@ -181,8 +180,17 @@ function AdicionarProduto() {
                     <div style={{ color: 'black' }}>Quantidade:</div>
                     <input type='number' value={quantidade} onChange={handleQuantidadeChange} className="form-input" required></input>
                   </label>
-                </div>
 
+                  <label style={{ flex: 1 }}>
+                    <div style={{ color: 'black' }}>Código de Barras</div>
+                    <input type="text" value={barcode} onChange={(e) => setBarcode(e.target.value)} />
+                  </label>
+                </div>
+                <BarcodeReader onError={handleError} onScan={lerBarra} />
+
+
+
+                <button type="button" onClick={gerarBarra}>Gerar Código de Barras</button>
                 <Button type="submit" variant="secondary" style={{ flex: 1 }}>Adicionar Produto</Button>
                 <Link to="/adicionar" style={{ flex: 1 }}></Link>
 
