@@ -107,3 +107,14 @@ app.post('/fornecedor', async (req, res) => {
 app.use((req, res) => {
     res.status(404).send('Rota não encontrada.');
 });
+
+app.get('/fornecedor', (req, res) => {
+    const query = 'SELECT * FROM fornecedor';  // Ajuste para a consulta correta no seu banco de dados
+    connection.query(query, (err, results) => {
+        if (err) {
+            res.status(500).json({ message: 'Erro ao buscar fornecedores', error: err });
+        } else {
+            res.json(results);
+        }
+    });
+});
