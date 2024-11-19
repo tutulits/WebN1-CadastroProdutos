@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import BarcodeReader from 'react-barcode-reader';
+import JsBarcode from 'jsbarcode';
 import axios from 'axios';
 import { Container, Row, Col } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
@@ -13,12 +15,30 @@ function AdicionarProduto() {
   const [categorias, setCategorias] = useState([]);
   const [preco, setPreco] = useState('');
   const [quantidade_estoque, setQuantidadeEstoque] = useState('');
-  const [fornecedor, setFornecedor] = useState(''); // Fornecedor selecionado
+  const [fornecedor, setFornecedor] = useState('');
   const [fornecedores, setFornecedores] = useState([]); // Lista de fornecedores
   const [dataCadastro, setData] = useState('');
   const [validade, setValidade] = useState('');
   const [quantidade, setQuantia] = useState('');
   const [multiplicacao, setMultiplicacao] = useState(0);
+  const [productName, setProductName] = useState('');
+  const [barcode, setBarcode] = useState('');
+  const [barcodeGenerated, setBarcodeGenerated] = useState('');
+
+  const lerBarra = (data) => {
+    setBarcode(data);
+  };
+
+  const handleError = (err) => {
+    console.error(err);
+  };
+
+  // Função para gerar código de barras visual (se necessário)
+  const gerarBarra = () => {
+    const canvas = document.createElement('canvas');
+    JsBarcode(canvas, barcode, { format: "CODE128" });
+    setBarcodeGenerated(canvas.toDataURL());
+  };
 
   // Buscar as categorias e fornecedores da API
   useEffect(() => {
@@ -30,7 +50,7 @@ function AdicionarProduto() {
         console.error("Erro ao buscar categorias:", error);
       });
 
-    axios.get('http://localhost:3001/fornecedores') // Nova chamada para obter fornecedores
+    axios.get('http://localhost:3001/fornecedores') 
       .then(response => {
         setFornecedores(response.data);
       })
@@ -47,7 +67,7 @@ function AdicionarProduto() {
       categoria,
       preco,
       quantidade_estoque,
-      fornecedor, // Incluir fornecedor selecionado no objeto
+      fornecedor,
       data_cadastro: dataCadastro,
       validade,
       quantidade,
