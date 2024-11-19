@@ -70,7 +70,8 @@ function AdicionarProduto() {
       data_cadastro: dataCadastro,
       validade,
       quantidade,
-      multiplicacao
+      multiplicacao,
+      codigo_barras: barcode
     };
 
     axios.post('http://localhost:3001/adicionar', novoProduto)
@@ -180,23 +181,28 @@ function AdicionarProduto() {
                     <div style={{ color: 'black' }}>Quantidade:</div>
                     <input type='number' value={quantidade} onChange={handleQuantidadeChange} className="form-input" required></input>
                   </label>
-
                   <label style={{ flex: 1 }}>
                     <div style={{ color: 'black' }}>Código de Barras</div>
-                    <input type="text" value={barcode} onChange={(e) => setBarcode(e.target.value)} />
+                    <input type="text" value={barcode} onChange={(e) => setBarcode(e.target.value)}  className="form-input" required />
                   </label>
                 </div>
-                <BarcodeReader onError={handleError} onScan={lerBarra} />
 
-
-
-                <button type="button" onClick={gerarBarra}>Gerar Código de Barras</button>
+                <Button type="button" variant='success' onClick={gerarBarra}>Gerar Código de Barras</Button>
                 <Button type="submit" variant="secondary" style={{ flex: 1 }}>Adicionar Produto</Button>
+                <BarcodeReader onError={handleError} onScan={lerBarra} />
                 <Link to="/adicionar" style={{ flex: 1 }}></Link>
 
-                <div>
-                  <b>Multiplicação Produto: {multiplicacao}</b>
-                </div>
+
+
+                {barcodeGenerated && (
+                  <div>
+                    <h3 style={{color:"black"}}>Código de Barras Gerado:</h3>
+                    <img src={barcodeGenerated} alt="Código de Barras" />
+                  </div>
+                )}
+
+             
+
               </div>
             </form>
           </div>
