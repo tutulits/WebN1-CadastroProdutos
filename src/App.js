@@ -11,7 +11,6 @@ function App() {
   return (
     <body>
     <Router>
-      {/* Aplique a classe app-container aqui para garantir que o fundo se estenda */}
       <div className="app-container">
         <Navbar bg="dark" variant="dark" expand="lg" className="mb-4">
           <Navbar.Brand href="/"> 🛒 Tutulits Market</Navbar.Brand>
@@ -23,7 +22,7 @@ function App() {
           </Nav>
         </Navbar>
 
-        {/* Corpo da página com Cards */}
+       
         <Container>
           <Row className="mb-4">
             <Col md={6} lg={4}>
