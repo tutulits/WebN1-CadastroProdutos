@@ -103,6 +103,16 @@ app.post('/fornecedor', async (req, res) => {
     }
 });
 
+app.get('/fornecedores', async (req, res) => {
+    try {
+        const resultados = await query('SELECT id, nome FROM fornecedor');
+        res.json(resultados);
+    } catch (erro) {
+        console.error('Erro ao buscar fornecedores:', erro);
+        res.status(500).send('Erro ao buscar fornecedores: ' + erro.sqlMessage);
+    }
+});
+
 // Tratamento para rotas não existentes
 app.use((req, res) => {
     res.status(404).send('Rota não encontrada.');

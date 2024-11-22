@@ -54,6 +54,7 @@ function AdicionarProduto() {
       
       axios.get('http://localhost:3001/fornecedores')
         .then(response => {
+          console.log(response.data);
           setFornecedores(response.data);
         })
         .catch(error => {
