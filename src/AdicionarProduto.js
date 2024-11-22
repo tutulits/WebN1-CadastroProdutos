@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import BarcodeReader from 'react-barcode-reader';
 import JsBarcode from 'jsbarcode';
 import axios from 'axios';
@@ -23,6 +24,7 @@ function AdicionarProduto() {
   const [multiplicacao, setMultiplicacao] = useState(0);
   const [barcode, setBarcode] = useState('');
   const [barcodeGenerated, setBarcodeGenerated] = useState('');
+  const location = useLocation();
 
   const lerBarra = (data) => {
     setBarcode(data);
@@ -39,24 +41,31 @@ function AdicionarProduto() {
     setBarcodeGenerated(canvas.toDataURL());
   };
 
-  // Buscar as categorias e fornecedores da API
   useEffect(() => {
-    axios.get('http://localhost:3001/categorias')
+    // Função para buscar os fornecedores
+    const fetchFornecedores = () => {
+      axios.get('http://localhost:3001/categorias')
       .then(response => {
         setCategorias(response.data);
       })
       .catch(error => {
         console.error("Erro ao buscar categorias:", error);
       });
+      
+      axios.get('http://localhost:3001/fornecedores')
+        .then(response => {
+          setFornecedores(response.data);
+        })
+        .catch(error => {
+          console.error("Erro ao buscar fornecedores:", error);
+        });
+    };
 
-    axios.get('http://localhost:3001/fornecedores')
-      .then(response => {
-        setFornecedores(response.data);
-      })
-      .catch(error => {
-        console.error("Erro ao buscar fornecedores:", error);
-      });
-  }, []);
+    // Chama a função ao montar o componente ou quando a rota muda
+    fetchFornecedores();
+  }, [location]); // location indica que o useEffect será executado ao mudar de página
+
+  
 
   const handleSubmit = (evento) => {
     evento.preventDefault();
