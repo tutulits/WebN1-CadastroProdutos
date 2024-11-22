@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Container, Row, Col } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
@@ -10,6 +11,8 @@ function AdicionarFornecedor() {
   const [endereco, setEndereco] = useState('');
   const [telefone, setTelefone] = useState('');
   const [email, setEmail] = useState('');
+
+  const navigate = useNavigate(); 
 
   const validarEmail = (email) => {
     const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -45,6 +48,7 @@ function AdicionarFornecedor() {
         setEndereco('');
         setTelefone('');
         setEmail('');
+        navigate('/adicionar');
       })
       .catch((erro) => {
         console.error('Erro de rede:', erro);
