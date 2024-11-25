@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import BarcodeReader from 'react-barcode-reader';
 import JsBarcode from 'jsbarcode';
 import axios from 'axios';
@@ -25,6 +26,7 @@ function AdicionarProduto() {
   const [barcode, setBarcode] = useState('');
   const [barcodeGenerated, setBarcodeGenerated] = useState('');
   const location = useLocation();
+  const navigate = useNavigate();
 
   const lerBarra = (data) => {
     setBarcode(data);
@@ -87,6 +89,7 @@ function AdicionarProduto() {
     axios.post('http://localhost:3001/adicionar', novoProduto)
       .then(() => {
         alert('Produto adicionado com sucesso!');
+        navigate('/listar');
       })
       .catch((erro) => {
         console.error('Erro de rede:', erro);
