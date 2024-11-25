@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import AdicionarProduto from './AdicionarProduto';
 import AdicionarCategoria from './AdicionarCategoria';
 import AdicionarFornecedor from './AdicionarFornecedor';
+import ListarProduto from './ListarProduto';
 import { Container, Navbar, Nav, Button, Row, Col, Card } from 'react-bootstrap';
 import { FaPlus, FaClipboardList } from 'react-icons/fa';  // Importando ícones para botões
 import './App.css';  // Importando o CSS com a cor de fundo
@@ -16,6 +17,7 @@ function App() {
           <Navbar.Brand href="/"> 🛒 Tutulits Market</Navbar.Brand>
           <Nav className="ml-auto">
             <Link to="/adicionar" className="corzinha">Adicionar Produto 🏷️</Link>
+            <Link to="/listar" className='corzinha'>Listar Produto 🏷️</Link>
             <Link to="/fornecedor" className="corzinha">Adicionar Fornecedores 📂</Link>
             <Link to="/categoria" className="corzinha">Adicionar Categoria 📂</Link>
             <Link to="/" className="corzinha">Voltar ⬅️</Link>
@@ -25,7 +27,7 @@ function App() {
        
         <Container>
           <Row className="mb-4">
-            <Col md={6} lg={4}>
+            <Col md={6} lg={3}>
               <Card className="text-center">
                 <Card.Body>
                   <Card.Title>Adicionar Produto 🏷️</Card.Title>
@@ -41,7 +43,7 @@ function App() {
               </Card>
             </Col>
 
-            <Col md={6} lg={4}>
+            <Col md={6} lg={3}>
               <Card className="text-center">
                 <Card.Body>
                   <Card.Title>Adicionar Fornecedores 📂</Card.Title>
@@ -57,7 +59,7 @@ function App() {
               </Card>
             </Col>
 
-            <Col md={6} lg={4}>
+            <Col md={6} lg={3}>
               <Card className="text-center">
                 <Card.Body>
                   <Card.Title>Adicionar Categoria 📂</Card.Title>
@@ -73,6 +75,22 @@ function App() {
               </Card>
             </Col>
 
+            <Col md={6} lg={3}>
+              <Card className="text-center">
+                <Card.Body>
+                  <Card.Title>Listar Produtos 📂</Card.Title>
+                  <Card.Text>
+                    Liste seus produtos no Tutulits Market!
+                  </Card.Text>
+                  <Link to="/listar">
+                    <Button variant="danger">
+                      <FaClipboardList /> Listar Produtos
+                    </Button>
+                  </Link>
+                </Card.Body>
+              </Card>
+            </Col>
+
           </Row>
 
           <Routes>
@@ -80,6 +98,7 @@ function App() {
             <Route path="/adicionar" element={<AdicionarProduto />} />
             <Route path="/categoria" element={<AdicionarCategoria />} />
             <Route path="/fornecedor" element={<AdicionarFornecedor/>} />
+            <Route path='/listar' element={<ListarProduto/>} />
           </Routes>
         </Container>
       </div>

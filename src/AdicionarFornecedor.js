@@ -89,7 +89,7 @@ function AdicionarFornecedor() {
                   </label>
                 </div>
 
-                <Button type="submit" variant="secondary" style={{ flex: 1 }}>Adicionar Fornecedor</Button>
+                <Button type="submit" variant="primary" style={{ flex: 1 }}>Adicionar Fornecedor</Button>
                 <Link to="/adicionar" style={{ flex: 1 }}></Link>
               </div>
             </form>
