@@ -119,12 +119,25 @@ app.use((req, res) => {
 });
 
 app.get('/fornecedor', (req, res) => {
-    const query = 'SELECT * FROM fornecedor';  // Ajuste para a consulta correta no seu banco de dados
+    const query = 'SELECT * FROM fornecedor'; 
     connection.query(query, (err, results) => {
         if (err) {
             res.status(500).json({ message: 'Erro ao buscar fornecedores', error: err });
         } else {
             res.json(results);
+        }
+    });
+});
+
+
+app.get('/listar', (req, res) => {
+    const query = 'SELECT * FROM produto'; 
+    conexao.query(query, (erro, resultados) => {
+        if (erro) {
+            console.error('Erro ao buscar produtos:', erro);
+            res.status(500).send('Erro ao buscar produtos');
+        } else {
+            res.json(resultados);
         }
     });
 });
