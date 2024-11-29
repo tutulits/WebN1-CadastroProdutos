@@ -114,9 +114,7 @@ app.get('/fornecedores', async (req, res) => {
 });
 
 // Tratamento para rotas não existentes
-app.use((req, res) => {
-    res.status(404).send('Rota não encontrada.');
-});
+
 
 app.get('/fornecedor', (req, res) => {
     const query = 'SELECT * FROM fornecedor'; 
@@ -140,4 +138,9 @@ app.get('/listar', (req, res) => {
             res.json(resultados);
         }
     });
+});
+
+
+app.use((req, res) => {
+    res.status(404).send('Rota não encontrada.');
 });

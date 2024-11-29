@@ -36,7 +36,7 @@ function AdicionarProduto() {
     console.error(err);
   };
 
-  // Função para gerar código de barras visual (se necessário)
+ 
   const gerarBarra = () => {
     const canvas = document.createElement('canvas');
     JsBarcode(canvas, barcode, { format: "CODE128" });
@@ -64,9 +64,9 @@ function AdicionarProduto() {
         });
     };
 
-    // Chama a função ao montar o componente ou quando a rota muda
+    
     fetchFornecedores();
-  }, [location]); // location indica que o useEffect será executado ao mudar de página
+  }, [location]); 
 
   
 
