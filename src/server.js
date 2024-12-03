@@ -142,6 +142,7 @@ app.get('/listar', (req, res) => {
     });
 });
 
+// login
 app.post('registro', async (req, res) => {
     const { email, senha } = req.body;
     if (!email || !senha) {
@@ -157,6 +158,47 @@ app.post('registro', async (req, res) => {
         res.status(500).send('Erro ao registrar usuario.');
     }
 });
+
+
+app.post('login', async (req, res) => {
+    const { email, senha } = req.body;
+    if (!email || !senha) {
+        return res.status(400).semd('Email ou senha incorretos.');
+    }
+    try {
+        const resultados = await query('SELECT * FROM usuarios WHERE email = ?', [email]);
+        if (resultados.length === 0) {
+            return res.status(400).send('Email ou senhas incorretos.');
+        }
+        if (!match) {
+            return res.status(400).send('Email ou senha incorretos.');
+        }
+
+        // Gerando um token JWT
+        const token = jwt.sign({ id: user.id, email: user.email }, 'secreta123', { expiresIn: '1h' });
+        res.json({ token });
+    } catch (erro) {
+        console.error('Eroo ao fazer login:', erro);
+        res.status(500).send('Erro ao fazer Login.');
+    }
+});
+
+const autenticacao = (req, res, next) => {
+    const token = req.headers['authorization'];
+
+    if (!token) return res.sendStatus(401);
+
+    jwt.verify(token.split(' ')[1], 'secreta123', (err, user) => {
+        if (err) return res.sendStatus(403);
+        req.user = user;
+        next();
+    });
+};
+
+app.get('/protected', autenticacao, (req, res) => {
+    res.send('Essa é uma rota protegida!');
+});
+// fim do login
 
 app.use((req, res) => {
     res.status(404).send('Rota não encontrada.');

@@ -5,8 +5,8 @@ import AdicionarCategoria from './AdicionarCategoria';
 import AdicionarFornecedor from './AdicionarFornecedor';
 import ListarProduto from './ListarProduto';
 import { Container, Navbar, Nav, Button, Row, Col, Card } from 'react-bootstrap';
-import { FaPlus, FaClipboardList } from 'react-icons/fa';  // Importando ícones para botões
-import './App.css';  // Importando o CSS com a cor de fundo
+import { FaPlus, FaClipboardList } from 'react-icons/fa';  
+import './App.css';  
 
 function App() {
   return (
@@ -101,9 +101,44 @@ function App() {
             <Route path='/listar' element={<ListarProduto/>} />
           </Routes>
         </Container>
+
+        <Container>
+                    <Routes>
+                        {/* Rota de login */}
+                        <Route path="/login" element={<Login />} />
+
+                        {/* Rotas protegidas */}
+                        <Route path="/dashboard" element={
+                            <ProtectedRoute>
+                                <Dashboard />
+                            </ProtectedRoute>
+                        } />
+
+                        <Route path="/adicionar" element={
+                            <ProtectedRoute>
+                                <AdicionarProduto />
+                            </ProtectedRoute>
+                        } />
+
+                        <Route path="/categoria" element={
+                            <ProtectedRoute>
+                                <AdicionarCategoria />
+                            </ProtectedRoute>
+                        } />
+
+                        <Route path="/fornecedor" element={
+                            <ProtectedRoute>
+                                <AdicionarFornecedor />
+                            </ProtectedRoute>
+                        } />
+
+                        {/* Página inicial redirecionando para login ou dashboard */}
+                        <Route path="/" element={<Login />} />
+                    </Routes>
+                </Container>
+
       </div>
-    </Router>
-    
+    </Router>   
 </body>    
 
   );
