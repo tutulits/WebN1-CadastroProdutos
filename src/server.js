@@ -3,6 +3,8 @@ const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const util = require('util');
+const bcrypt = require('bcrypt');  // Para hashear senhas
+const jwt = require('jsonwebtoken');  // Para criar tokens de sessão
 
 const app = express();
 app.use(cors());
@@ -117,7 +119,7 @@ app.get('/fornecedores', async (req, res) => {
 
 
 app.get('/fornecedor', (req, res) => {
-    const query = 'SELECT * FROM fornecedor'; 
+    const query = 'SELECT * FROM fornecedor';
     connection.query(query, (err, results) => {
         if (err) {
             res.status(500).json({ message: 'Erro ao buscar fornecedores', error: err });
@@ -129,7 +131,7 @@ app.get('/fornecedor', (req, res) => {
 
 
 app.get('/listar', (req, res) => {
-    const query = 'SELECT * FROM produto'; 
+    const query = 'SELECT * FROM produto';
     conexao.query(query, (erro, resultados) => {
         if (erro) {
             console.error('Erro ao buscar produtos:', erro);
@@ -140,6 +142,21 @@ app.get('/listar', (req, res) => {
     });
 });
 
+app.post('registro', async (req, res) => {
+    const { email, senha } = req.body;
+    if (!email || !senha) {
+        return res.status(400).send('Email e senha são obrigatórios');
+    }
+    const password = await bcrypt.hash(senha, 10);
+    const queryStr = `INSERT INTO usuarios (email, senha) VALUES (?, ?)`;
+    try {
+        await query(queryStr, [email, password]);
+        res.send('Usuario registrado com sucesso!');
+    } catch (erro) {
+        console.error('Eroo ao registrar usuario', erro);
+        res.status(500).send('Erro ao registrar usuario.');
+    }
+});
 
 app.use((req, res) => {
     res.status(404).send('Rota não encontrada.');
