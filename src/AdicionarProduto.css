@@ -5,7 +5,6 @@
     color: white;
     padding: 20px;
     border-radius: 8px;
-   
   }
   
   .form-input {
@@ -15,3 +14,13 @@
     border-radius: 4px;
     box-sizing: border-box;
   }
+
+  .produto-containerrrrr {
+    background-color: white;
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+      width: 35%;
+      margin: auto;
+    }
+ 
